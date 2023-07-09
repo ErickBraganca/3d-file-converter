@@ -1,6 +1,8 @@
 from tkinter import Tk, Button, filedialog
 from os import path
 
+from main import file_converter
+
 # Defining global variables
 root = Tk()
 root.title("3D File Converter")
@@ -48,9 +50,8 @@ def init():
         import_path = filedialog.askopenfilename(filetypes=input_extensions)
         if import_path:
             input_name = path.basename(import_path)
-
             converter_config["input_path"] = import_path
-            converter_config["input_name"] = input_name.path.splitext(path.basename(import_path))[0]
+            converter_config["input_name"] = input_name.split('.')[0]
     # ----------------------#
     def export_file():
         export_path = filedialog.asksaveasfilename(
@@ -58,6 +59,7 @@ def init():
         )
         if export_path:
             converter_config["output_path"] = export_path
+            file_converter(converter_config)
 
     # ----------------------#
     def build_interface():
