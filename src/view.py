@@ -1,4 +1,4 @@
-from tkinter import Tk, Button, filedialog
+from tkinter import Tk, Button, filedialog, messagebox, Label
 from os import path
 
 from main import file_converter
@@ -6,7 +6,10 @@ from main import file_converter
 # Defining global variables
 root = Tk()
 root.title("3D File Converter")
+root.geometry("250x300")
+root.config(bg="#37474f")
 
+ui_components = []
 
 input_extensions = (
     ("Autodesk FBX", ".fbx"),
@@ -32,7 +35,6 @@ input_extensions = (
     ("VRML", ".wrl"),
     ("X3D", ".x3d"),
 )
-
 output_extensions = (
     ("3Ds Max", ".3ds"),
     ("OpenCTM", ".ctm"),
@@ -51,7 +53,11 @@ def init():
         if import_path:
             input_name = path.basename(import_path)
             converter_config["input_path"] = import_path
-            converter_config["input_name"] = input_name.split('.')[0]
+            converter_config["input_name"] = input_name.split(".")[0]
+
+            btn_instance = ui_components[0]
+            btn_instance.config(state="active")
+
     # ----------------------#
     def export_file():
         export_path = filedialog.asksaveasfilename(
@@ -60,18 +66,41 @@ def init():
         if export_path:
             converter_config["output_path"] = export_path
             file_converter(converter_config)
+            messagebox.showinfo(title="3D Exporter", message="Export was concluded")
 
     # ----------------------#
     def build_interface():
-        btn_import = Button(root, text="Import", command=import_file)
-        btn_export = Button(root, text="Export", command=export_file)
+        btn_import = Button(
+            root, text="Import",
+            command=import_file,
+            font="Roboto",
+            bg="#009879",
+            fg="#fff",
+            borderwidth=0,
+            relief="flat"
+        )
+        btn_export = Button(
+            root,
+            text="Export",
+            command=export_file,
+            state="disabled",
+            font="Roboto",
+            bg="#ff5100",
+            fg="#fff",
+            borderwidth=0,
+            relief="flat"
+        )
 
-        btn_import.pack()
-        btn_export.pack()
+        btn_import.pack(pady="50", ipadx="25", ipady="10")
+        btn_export.pack(pady="10", ipadx="25", ipady="10")
+
+        ui_components.append(btn_export)
 
         root.mainloop()
 
     # ----------------------#
     build_interface()
+
+
 # ----------------------#
 init()
