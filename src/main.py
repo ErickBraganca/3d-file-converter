@@ -2,7 +2,7 @@ import pymeshlab
 
 def file_converter(config):
 
-    # Extract file i/o parameters from view
+    # Extract file i/o parameters from
     input_file = config["input_path"]
     output_file = config["output_path"]
 
